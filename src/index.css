@@ -1,0 +1,143 @@
+
+
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;800&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+
+
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+ul {
+  list-style: none;
+}
+
+
+
+body{
+  font-family: 'Inter', monospace;
+}
+/* form login================ */
+.main-form{
+  background: #b38a594c;
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items:center;
+  justify-content: center;
+}
+form{
+  border: 1px solid rgba(0, 0, 0, 0.105);
+ width: 450px;
+ padding: 2rem;
+ background: white;
+ box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.203);
+ 
+  
+}
+label{
+  margin-bottom: .6rem;
+}
+.form-group{
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+form input , select, textarea{
+  padding: .55rem;
+  border: 1px solid #e8952f;
+  outline: none;
+  font-family: inherit;
+}
+form h3{
+  margin-bottom: 2.4rem;
+}
+.error{
+  margin-top: 1rem;
+  color: crimson;
+  font-size: small;
+  margin-bottom: 1rem;
+}
+.success{
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  color: rgb(12, 77, 12);
+  font-size: small;
+}
+button{
+  margin-top: 1.5rem;
+  font-family: inherit;
+  border: 1px solid #b38a59;
+  min-width: 10rem;
+ cursor: pointer;
+  padding: .7rem;
+  background: #e8952f;
+  border-radius:3px;
+  color: black;
+  margin-bottom: 1rem;
+}
+
+/* dashboard  */
+.main-container{
+  width: 100%;
+
+  padding: 1rem;
+  
+}
+.header{
+display: flex;
+align-items: center;
+justify-content: space-between;
+border-bottom: 1px solid rgba(0, 0, 0, 0.217);
+padding-bottom: 1rem;
+}
+
+/* cards main -dashboard */
+.cards-main{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  gap: .5rem;
+  
+}
+.caard{
+  padding: 1rem;
+  background-color:#e8952f27;
+  width: 20rem;
+  border: 1px solid  #e8952f6f;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.259);
+  min-height: 11rem;
+}
+.top{
+  display: flex;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  justify-content: space-between;
+}
+.bottom{
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+
+}
+.bottom .icon{
+  font-size: 1.2rem;
+}
+.form-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  
+}
