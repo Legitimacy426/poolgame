@@ -24,7 +24,7 @@ const Match = () => {
             name: name,
             createdAt: serverTimestamp(),
             winner: '',
-            status: 'off',
+            status: 'available',
             tableId:tbl
         }
         addDoc(docRef, match).then(() => {
@@ -70,7 +70,8 @@ const Match = () => {
      
         <div className="form-group">
                         <label htmlFor="">Pool Table</label>
-                        <select name="status" onChange={(e)=>{setTbl(e.target.value)}} id="">
+                        <select required name="status" onChange={(e) => { setTbl(e.target.value) }} id="">
+                            <option value="">Select a pool table</option>
                             {tables.map(table => (
                                 <option value={table.id}>{ table.name}</option>
                         ))}

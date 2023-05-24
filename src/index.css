@@ -141,3 +141,18 @@ padding-bottom: 1rem;
   
   
 }
+.account{
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.link{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.253);
+  padding: .3rem;
+  border-radius: 3px;
+  font-size: small;
+  cursor: pointer;
+}

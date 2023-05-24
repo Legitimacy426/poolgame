@@ -7,11 +7,12 @@ import { AiFillEdit, AiOutlineArrowRight } from "react-icons/ai";
 import useFetchCat2 from './hooks/useFetchCat2';
 import useFetchMatchNames from './hooks/useFetchMatchNames';
 import useFetchMatches from './hooks/useFetchMatches';
+import useFetchMatchesAd from './hooks/useFetchMatchesAd';
 function Matches() {
   const [name, setcat] = useState('all')
 
   useAuth()
-  const { cards : matches } = useFetchMatches(name)
+  const { cards : matches } = useFetchMatchesAd(name)
   const {cats} = useFetchMatchNames()
   
   return (
@@ -32,6 +33,7 @@ function Matches() {
       </div>
       
       <div className="cards-main">
+      {matches.length == 0 ? <center> Matches will appers here</center> : ""}
         {matches.map((card) => (
           <div className="caard">
           <BiAperture />

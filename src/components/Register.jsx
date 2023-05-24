@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, } from "firebase/auth"
-import { getDoc ,doc,query,where ,collection, getDocs} from "firebase/firestore"
+import { getDoc ,doc,query,where ,collection, getDocs, serverTimestamp, addDoc} from "firebase/firestore"
 import { useState } from "react"
 import { useParams,Link } from "react-router-dom"
 import { auth, db } from "./firebase.config"
@@ -18,12 +18,28 @@ const Register = () => {
         createUserWithEmailAndPassword(auth, email, password)
             .then((cred) => {
             // success
-              
-                Swal.fire(
-                    'success',
-                    `You can login as ${email}`,
-                    'success'
-                  )
+                const uid = cred.user.uid
+                const account = {
+                    userId: uid,
+                    email: email,
+                    balance: 0,
+                    createdAt: serverTimestamp(),
+                    role: "user"
+                }
+                const userRef = collection(db, 'accounts')
+                addDoc(userRef, account).then(() => {
+                    Swal.fire(
+                        'success',
+                        `You can login as ${email}`,
+                        'success'
+                      )
+                }).catch((e) => {
+                    Swal.fire(
+                        'error',
+                        `${e.message}`,
+                        'error'
+                      )
+            })
                  
                 
             }).catch((e) => {
@@ -49,6 +65,7 @@ const Register = () => {
                         <label htmlFor="">Email Address</label>
                         <input
                             required
+                            placeholder="Enter valid email address"
                             type="email"
                             name="email"
                             id=""
@@ -56,20 +73,11 @@ const Register = () => {
                             onChange = {(e)=>{setEmail(e.target.value)}}
                         />         
            </div>
-        {/* <div className="form-group">
-                        <label htmlFor="">Phone</label>
-                        <input
-                            required
-                            type="number"
-                            name="phone"
-                            id=""
-                            value={phone}
-                            onChange = {(e)=>{setPhone(e.target.value)}}
-                        />         
-           </div> */}
+      
         <div className="form-group">
                         <label htmlFor="">Password</label>
                         <input
+                            placeholder="Create password"
                             required
                             type="password"
                             name="password" id=""

@@ -11,7 +11,9 @@ import Match from './components/Match'
 import EditMatch from './components/EditMatch'
 import UserDashboard from './components/user/UserDashboard'
 import Bet from './components/user/Bet'
-
+import Withdraw from './components/user/Withdraw'
+import Deposit from './components/user/Deposit'
+import Details from './components/user/Details'
 
 function App() {
 
@@ -33,7 +35,11 @@ function App() {
         <Route path='match' element={<Match />} />
         {/* user routes */}
         <Route path='/user' element={<UserDashboard />} />
+        <Route path='/withdraw' element={<Withdraw />} />
+        <Route path='/deposit' element={<Deposit />} />
         <Route path='bet/:cat/:id/:q' element={<Bet />} />
+        <Route path='betdetails/:id/:mid' element={<Details />} />
+
      
       </Routes>
    </Router>

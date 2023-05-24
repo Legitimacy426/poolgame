@@ -16,7 +16,7 @@ function UserMatches() {
   console.log(matches)
   return (
       <div className="main-container">
-         
+          {matches.length == 0 ? <center>Available matches will appers here</center> : ""}
       
       <div className="cards-main">
         {matches.map((card) => (
@@ -27,11 +27,13 @@ function UserMatches() {
          
               <p>{ card.status}</p>
             </div>
-           <small> {card.comment }</small>
+           {/* <small> {card }</small> */}
             <div className="bottom">
+              <div></div>
             {/* <Link to={`/add/${card.name}/${card.id}/${card.quantity}`} className="icon"><BiPlus /></Link>
             <Link to={`/minus/${card.name}/${card.id}/${card.quantity}`} className="icon"><BiMinus /></Link> */}
-            <Link to={`/bet/${card.name}/${card.id}/${card.quantity}`} className="icon"><AiFillEdit /></Link>
+              <Link  className='link' to={`/bet/${card.name}/${card.id}/${card.quantity}`}>Bet<AiOutlineArrowRight /></Link>
+           
             </div>
            
           </div>

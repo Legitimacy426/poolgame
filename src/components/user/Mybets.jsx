@@ -14,11 +14,11 @@ function Mybets() {
     const { userId} = useAuth()
   const { cards : bets } = useFetchMyBets(userId)
 
-  
+  console.log(bets)
   return (
       <div className="main-container">
        
-      
+      {bets.length == 0 ? <center>Your bets will appers here</center> : ""}
       <div className="cards-main">
         {bets.map((card) => (
           <div className="caard">
@@ -28,11 +28,14 @@ function Mybets() {
          
               <small>{ card.status}</small>
             </div>
-           <small>possible win  KES {card.winAmount }</small>
+            <small>possible win  KES {card.winAmount}</small>
+            
             <div className="bottom">
+              <div></div>
             {/* <Link to={`/add/${card.name}/${card.id}/${card.quantity}`} className="icon"><BiPlus /></Link>
             <Link to={`/minus/${card.name}/${card.id}/${card.quantity}`} className="icon"><BiMinus /></Link> */}
-            <Link to={`/bet/${card.name}/${card.id}/${card.quantity}`} className="icon"><AiFillEdit /></Link>
+              {/* <Link to={`/bet/${card.name}/${card.id}/${card.quantity}`} className="icon"><AiFillEdit /></Link> */}
+              <Link className='link' to={`/betdetails/${card.id}/${card.matchId}`}> View <AiOutlineArrowRight /> </Link>
             </div>
            
           </div>

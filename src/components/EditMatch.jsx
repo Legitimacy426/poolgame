@@ -14,28 +14,49 @@ const EditMatch = () => {
     const [name,setName] = useState(cat)
     const [status,setStatus] = useState('Active')
      const {cards : players} = useFetchPlayers(id)
-
+    const playername = winner.split(',')[1]
+    const winnerid  = winner.split(',')[0]
     const [isError, setError] = useState()
     const handleSumbit = (e) => {
-        alert(winner)
+   
         e.preventDefault()
         const docRef = doc(db, 'matches', id)
-        updateDoc(docRef, {
-            winner: winner,
-            status:"completed"
-        }).then(() => {
-            Swal.fire(
-                'success',
-                ` Winner Added`,
-                'success'
-              )
-        }).catch(e => {
-            Swal.fire(
-                'Oops',
-                `${e.message} `,
-                'error'
-              )
-       })
+        if (status == 'started') {
+            updateDoc(docRef, {
+               
+                status:"started"
+            }).then(() => {
+                Swal.fire(
+                    'success',
+                    ` Match started`,
+                    'success'
+                  )
+            }).catch(e => {
+                Swal.fire(
+                    'Oops',
+                    `${e.message} `,
+                    'error'
+                  )
+           })
+        } else {
+            updateDoc(docRef, {
+                winner: winnerid,
+                status: "completed",
+                winnerName : playername
+            }).then(() => {
+                Swal.fire(
+                    'success',
+                    `Match completed and the winner updated`,
+                    'success'
+                  )
+            }).catch(e => {
+                Swal.fire(
+                    'Oops',
+                    `${e.message} `,
+                    'error'
+                  )
+           })
+         }
     
    }
     return (
@@ -62,20 +83,22 @@ const EditMatch = () => {
                         />         
            </div> */}
      
-        {/* <div className="form-group">
+        <div className="form-group">
                         <label htmlFor="">status</label>
-                        <select name="status" onChange={(e)=>{setStatus(e.target.value)}} id="">
-                            <option value="on">On</option>
-                            <option value="off">Off</option>
-                            <option value="Deactivate">Deactivate</option>
+                        <select name="status" onChange={(e) => { setStatus(e.target.value) }} id="">
+                            <option value="">Set the status</option>
+                            {/* <option value="available">Available</option> */}
+                            <option value="started">Started</option>
+                            <option value="completed">Completed</option>
+                   
                         </select>       
-           </div> */}
+           </div>
         <div className="form-group">
                         <label htmlFor="">Select the Winner</label>
-                        <select required name="winner" onChange={(e) => { setWinner(e.target.value) }} id="">
+                        <select name="winner" onChange={(e) => { setWinner(e.target.value) }} id="">
                             <option value="">Select the winner</option>
                             {players.map(player => (
-                                <option value={player.id}>{ player.name}</option>
+                                <option value={[player.id,player.name]}>{ player.name}</option>
                         ))}
                         </select>       
            </div>

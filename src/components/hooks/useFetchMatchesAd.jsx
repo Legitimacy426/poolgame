@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase.config";
 
-const useFetchMatches = (name) => {
+const useFetchMatchesAd = (name) => {
 const [cards, setCards] = useState([]);
 const [isErrorC, setError] = useState(null);
 const [isPendingC, setPendingC] = useState(true);
@@ -23,14 +23,14 @@ const [isPendingC, setPendingC] = useState(true);
       if (name == 'all') {
          q = query(
            userRef,
-           where('status', '==', "available"),
+           where('status', '!=', "Deactivated"),
          
           ); 
       } else {
         q = query(
             userRef,
           where('name', '==', name),
-          where('status', '==', "available"),
+          where('status', '!=', "Deactivated"),
         
          
           );
@@ -52,4 +52,4 @@ const [isPendingC, setPendingC] = useState(true);
   }, [name]);
   return { cards, isErrorC, isPendingC };
 };
-export default useFetchMatches;
+export default useFetchMatchesAd;

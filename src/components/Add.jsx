@@ -67,7 +67,7 @@ const Add = () => {
         <div className="form-group">
                         <label htmlFor="">Odds</label>
                         <input
-                            
+                            required
                             type="number"
                             name="odds"
                             id=""

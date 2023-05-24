@@ -30,6 +30,7 @@ function Tables() {
       </div>
     
       <div className="cards-main">
+      {cards.length == 0 ? <center>Pool tables will appers here</center> : ""}
         {cards.map((card) => (
           <div className="caard">
           <BiAperture />

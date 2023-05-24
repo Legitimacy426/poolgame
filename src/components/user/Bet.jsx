@@ -6,17 +6,18 @@ import { auth, db } from "../firebase.config"
 import Swal from 'sweetalert2'
 import useFetchPlayers from "../hooks/useFetchPlayers"
 import useAuth from "../hooks/useAuth"
+import useFetchUser from "../hooks/useFetchUser"
 
 const Bet = () => {
     const { userId } = useAuth()
-    
+    const [rand,setRand] = useState(10)
     const { cat,id,q } = useParams()
     const [win,setWin] = useState()  
     const [winner,setWinner] = useState('')
     const [amount, setAmount] = useState(0)
     const odd = winner.split(',')[1]
     const winnerid = winner.split(',')[0]
-   
+   const {userInfo} = useFetchUser(rand)
      const possiblewin = (parseInt(amount)*odd)+parseInt(amount)
     const { cards: players } = useFetchPlayers(id)
    
@@ -24,15 +25,24 @@ const Bet = () => {
 
     const [isError, setError] = useState()
     const handleSumbit = (e) => {
-      
         e.preventDefault()
-        const docRef = collection(db, 'bets')
+        setRand(Math.random())
+        if (userInfo.length > 0) {
+            if (userInfo[0].balance < amount) {
+                Swal.fire(
+                    'Oops',
+                    `Your current balance is ${userInfo[0].balance} `,
+                    'error'
+                )
+                return
+            }
+            const docRef = collection(db, 'bets')
         const bet = {
             userId: userId,
             matchId: id,
             createdAt: serverTimestamp(),
             winnerId: winnerid,
-            winAmount: possiblewin,
+            winAmount: parseInt(possiblewin),
             status: "pending",
             odds: odd,
             match: cat,
@@ -40,18 +50,46 @@ const Bet = () => {
             
         }
         addDoc(docRef, bet).then(() => {
-            Swal.fire(
-                'success',
-                ` Bet placed succesifully`,
-                'success'
-              )
+        //    update balance
+
+            const newAmt = userInfo[0].balance - amount
+            const accRef = doc(db, 'accounts', userInfo[0].id)
+            updateDoc(accRef, {
+                balance:newAmt
+            }).then(() => {
+                // success all-------------------
+                Swal.fire(
+                    'success',
+                    `Bet placed succesifully`,
+                    'success'
+                  )
+            }).catch(e => {
+                Swal.fire(
+                    'Oops',
+                    `${e.message} `,
+                    'error'
+                )
+            
+           })
+
         }).catch(e => {
             Swal.fire(
                 'Oops',
                 `${e.message} `,
                 'error'
-              )
+            )
+        
        })
+        } else {
+            Swal.fire(
+                'Oops',
+                `We could not retrieve your current balance,retry `,
+                'error'
+              )
+        }
+      
+       
+        
     
    }
     return (
@@ -63,7 +101,7 @@ const Bet = () => {
                     
                
               <br />
-                    <h3>Place a bet in { cat}</h3> 
+                    <h3>Bet in { cat}</h3> 
         <div className="form-group">
                         <label htmlFor="">Select the Winner</label>
                         <select required name="winner" onChange={(e) => { setWinner(e.target.value) }} id="">
@@ -78,10 +116,10 @@ const Bet = () => {
                     <input type="number" name="amount" onChange={(e)=>{setAmount(e.target.value)}} />      
                     </div>
                     <br />
-                    {amount == 0 ? "":(<p style={{ color: "green" }}>Possible win { possiblewin}</p>)}
+                    {amount == 0 ? "":(<p style={{ color: "green" }}>Possible win { parseInt(possiblewin)}</p>)}
 
                    
-                    <button className="submit">Continue</button>
+                    {players.length > 2 ? <button className="submit">Continue</button> : <p style={{color:"red"}}>Warning - This match has { players.length } player(s)</p>}
                     {isError && <p className="error">{isError}</p>}  
                
         </form>

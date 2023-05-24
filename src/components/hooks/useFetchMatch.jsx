@@ -7,33 +7,32 @@ import {
   where,
   orderBy,
   onSnapshot,
+  getDoc,
+  doc,
 } from "firebase/firestore";
 import { db } from "../firebase.config";
+import useAuth from "./useAuth";
 
-const useFetchMyBets = (userId) => {
-const [cards, setCards] = useState([]);
+const useFetchMatch = (id) => {
+const [matchInfo, setCards] = useState([]);
 const [isErrorC, setError] = useState(null);
 const [isPendingC, setPendingC] = useState(true);
-
+const {userId} = useAuth()
     useEffect(() => {
    
     const Cards = [];
      
-      const userRef = collection(db, "bets");
-      const q = query(
-        userRef,
-        
-          where('status', '==', "pending"),
-        where("userId", "==", userId)
-        
-     
-       );
+      const userRef = doc(db, "matches",id);
+    //   const q = query(
+    //     userRef,where('')
+    
+    //    );
    
-    getDocs(q)
+    getDoc(userRef)
       .then((users) => {
-        users.forEach((user) => {
-          Cards.push({ ...user.data(), id: user.id });
-        });
+       
+          Cards.push({ ...users.data(), id: users.id });
+       
         setCards(Cards);
         setPendingC(false);
       })
@@ -41,7 +40,7 @@ const [isPendingC, setPendingC] = useState(true);
         console.log(err.message);
         setError(e.message);
       });
-  }, [userId]);
-  return { cards, isErrorC, isPendingC };
+  }, [id]);
+  return { matchInfo, isErrorC, isPendingC };
 };
-export default useFetchMyBets;
+export default useFetchMatch;

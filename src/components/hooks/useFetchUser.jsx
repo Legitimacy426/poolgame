@@ -9,33 +9,22 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { db } from "../firebase.config";
+import useAuth from "./useAuth";
 
-const useFetchMatches = (name) => {
-const [cards, setCards] = useState([]);
+const useFetchUser = (rand) => {
+const [userInfo, setCards] = useState([]);
 const [isErrorC, setError] = useState(null);
 const [isPendingC, setPendingC] = useState(true);
-
+const {userId} = useAuth()
     useEffect(() => {
    
     const Cards = [];
-      let q;
-      const userRef = collection(db, "matches");
-      if (name == 'all') {
-         q = query(
-           userRef,
-           where('status', '==', "available"),
-         
-          ); 
-      } else {
-        q = query(
-            userRef,
-          where('name', '==', name),
-          where('status', '==', "available"),
-        
-         
-          );
-          
-      }
+     
+      const userRef = collection(db, "accounts");
+      const q = query(
+        userRef
+    
+       );
    
     getDocs(q)
       .then((users) => {
@@ -49,7 +38,7 @@ const [isPendingC, setPendingC] = useState(true);
         console.log(err.message);
         setError(e.message);
       });
-  }, [name]);
-  return { cards, isErrorC, isPendingC };
+  }, [rand]);
+  return { userInfo, isErrorC, isPendingC };
 };
-export default useFetchMatches;
+export default useFetchUser;
