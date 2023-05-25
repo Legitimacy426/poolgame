@@ -44,9 +44,9 @@ function Matches() {
             </div>
            <small> {card.comment }</small>
             <div className="bottom">
-            <Link to={`/add/${card.name}/${card.id}/${card.quantity}`} className="icon"><BiPlus /></Link>
-            <Link to={`/minus/${card.name}/${card.id}/${card.quantity}`} className="icon"><BiMinus /></Link>
-            <Link to={`/editmatch/${card.name}/${card.id}/${card.quantity}`} className="icon"><AiFillEdit /></Link>
+            <Link to={`/add/${card.name}/${card.id}/${card.quantity}`} className=" link">Add Player <BiPlus /></Link>
+            
+            <Link to={`/editmatch/${card.name}/${card.id}/${card.quantity}`} className=" link"> Edit<AiFillEdit /></Link>
             </div>
            
           </div>
